@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import type { Task } from "@/types";
+import { TaskPriority, type Task } from "@/types";
 
 interface TaskItemProps {
   task: Task;
@@ -30,13 +30,13 @@ export const TaskItem: React.FC<TaskItemProps> = ({
     }
   };
 
-  const getPriorityStyles = (priority: string) => {
+  const getPriorityStyles = (priority: TaskPriority) => {
     switch (priority) {
-      case "high":
+      case TaskPriority.High:
         return "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800";
-      case "medium":
+      case TaskPriority.Medium:
         return "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800";
-      case "low":
+      case TaskPriority.Low:
         return "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700";
@@ -48,9 +48,9 @@ export const TaskItem: React.FC<TaskItemProps> = ({
       className={`transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-l-4 ${
         task.completed
           ? "opacity-75 border-l-green-400 bg-green-50/50 dark:bg-green-900/10"
-          : task.priority === "high"
+          : task.priority === TaskPriority.High
           ? "border-l-red-400"
-          : task.priority === "medium"
+          : task.priority === TaskPriority.Medium
           ? "border-l-yellow-400"
           : "border-l-green-400"
       } ${task.completed ? "hover:shadow-md" : "hover:shadow-xl"}`}
@@ -62,7 +62,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               <Switch
                 checked={task.completed}
                 onCheckedChange={() => onToggleComplete(task.id)}
-                className="data-[state=checked]:bg-green-500 transition-all duration-200"
+                className="cursor-pointer data-[state=checked]:bg-green-500 transition-all duration-200"
               />
             </div>
 
@@ -72,14 +72,13 @@ export const TaskItem: React.FC<TaskItemProps> = ({
                   <Input
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && handleEdit()}
                     className="flex-1 min-w-[200px] focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     autoFocus
                   />
                   <Button
                     size="sm"
                     onClick={handleEdit}
-                    className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md transition-all duration-200"
+                    className="cursor-pointer bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md transition-all duration-200"
                   >
                     <Save className="h-4 w-4" />
                   </Button>
@@ -90,7 +89,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
                       setIsEditing(false);
                       setEditTitle(task.title);
                     }}
-                    className="px-3 py-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
+                    className="cursor-pointer px-3 py-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -123,7 +122,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
                         task.priority
                       )} font-medium px-2 py-1 text-xs`}
                     >
-                      {task.priority.toUpperCase()}
+                      {task.priority}
                     </Badge>
                     {task.category && (
                       <Badge
@@ -152,7 +151,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               size="sm"
               variant="ghost"
               onClick={() => setIsEditing(!isEditing)}
-              className="h-9 w-9 p-0 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-full transition-all duration-200 group"
+              className="cursor-pointer h-9 w-9 p-0 hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-full transition-all duration-200 group"
             >
               <Edit3 className="h-4 w-4 text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400" />
             </Button>
@@ -160,7 +159,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               size="sm"
               variant="ghost"
               onClick={() => onDeleteTask(task.id)}
-              className="h-9 w-9 p-0 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-full transition-all duration-200 group"
+              className="cursor-pointer h-9 w-9 p-0 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-full transition-all duration-200 group"
             >
               <Trash2 className="h-4 w-4 text-gray-500 group-hover:text-red-600 dark:group-hover:text-red-400" />
             </Button>

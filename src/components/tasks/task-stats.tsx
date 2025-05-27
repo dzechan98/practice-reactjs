@@ -1,6 +1,6 @@
 import { Check, Star, Clock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Task } from "@/types";
+import { TaskPriority, type Task } from "@/types";
 
 interface TaskStatsProps {
   tasks: Task[];
@@ -9,7 +9,7 @@ interface TaskStatsProps {
 export const TaskStats: React.FC<TaskStatsProps> = ({ tasks }) => {
   const completedTasks = tasks.filter((task) => task.completed).length;
   const highPriorityTasks = tasks.filter(
-    (task) => task.priority === "high" && !task.completed
+    (task) => task.priority === TaskPriority.High && !task.completed
   ).length;
 
   return (

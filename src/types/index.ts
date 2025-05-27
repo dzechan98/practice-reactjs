@@ -1,10 +1,16 @@
+export enum TaskPriority {
+  Low = "Low",
+  Medium = "Medium",
+  High = "High",
+}
+
 export interface Task {
   id: string;
   title: string;
-  description: string;
-  completed: boolean;
-  priority: "low" | "medium" | "high";
+  description?: string;
+  priority: TaskPriority;
   category: string;
-  dueDate: string;
-  createdAt: Date;
+  dueDate?: string;
+  completed: boolean;
+  createdAt: string;
 }

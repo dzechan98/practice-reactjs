@@ -1,19 +1,14 @@
 import { TaskItem } from "@/components/tasks/task-item";
+import { useTasks } from "@/contexts/task-context";
 import type { Task } from "@/types";
 
 interface TaskListProps {
   tasks: Task[];
-  onToggleComplete: (id: string) => void;
-  onDeleteTask: (id: string) => void;
-  onEditTask: (id: string, updates: Partial<Task>) => void;
 }
 
-export const TaskList: React.FC<TaskListProps> = ({
-  tasks,
-  onToggleComplete,
-  onDeleteTask,
-  onEditTask,
-}) => {
+export const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
+  const { toggleTaskCompletion, deleteTask, updateTask } = useTasks();
+
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-6">
@@ -39,9 +34,9 @@ export const TaskList: React.FC<TaskListProps> = ({
             >
               <TaskItem
                 task={task}
-                onToggleComplete={onToggleComplete}
-                onDeleteTask={onDeleteTask}
-                onEditTask={onEditTask}
+                onToggleComplete={toggleTaskCompletion}
+                onDeleteTask={deleteTask}
+                onEditTask={updateTask}
               />
             </div>
           ))}
