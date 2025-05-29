@@ -1,5 +1,4 @@
 import { TaskItem } from "@/components/tasks/task-item";
-import { useTasks } from "@/contexts/task-context";
 import type { Task } from "@/types";
 
 interface TaskListProps {
@@ -7,8 +6,6 @@ interface TaskListProps {
 }
 
 export const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
-  const { toggleTaskCompletion, deleteTask, updateTask } = useTasks();
-
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-6">
@@ -32,12 +29,7 @@ export const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
               className="animate-slide-in-from-left"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <TaskItem
-                task={task}
-                onToggleComplete={toggleTaskCompletion}
-                onDeleteTask={deleteTask}
-                onEditTask={updateTask}
-              />
+              <TaskItem task={task} />
             </div>
           ))}
         </div>

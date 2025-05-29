@@ -6,26 +6,30 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { TaskPriority, type Task } from "@/types";
+import { useDispatch } from "react-redux";
+import {
+  deleteTask,
+  toggleTaskCompletion,
+  updateTask,
+} from "@/store/task-slice";
 
 interface TaskItemProps {
   task: Task;
-  onToggleComplete: (id: string) => void;
-  onDeleteTask: (id: string) => void;
-  onEditTask: (id: string, updates: Partial<Task>) => void;
 }
 
-export const TaskItem: React.FC<TaskItemProps> = ({
-  task,
-  onToggleComplete,
-  onDeleteTask,
-  onEditTask,
-}) => {
+export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(task.title);
 
   const handleEdit = () => {
     if (editTitle.trim()) {
-      onEditTask(task.id, { title: editTitle });
+      dispatch(
+        updateTask({
+          id: task.id,
+          updates: { title: editTitle },
+        })
+      );
       setIsEditing(false);
     }
   };
@@ -61,7 +65,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
             <div className="pt-1">
               <Switch
                 checked={task.completed}
-                onCheckedChange={() => onToggleComplete(task.id)}
+                onCheckedChange={() => dispatch(toggleTaskCompletion(task.id))}
                 className="cursor-pointer data-[state=checked]:bg-green-500 transition-all duration-200"
               />
             </div>
@@ -158,7 +162,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
             <Button
               size="sm"
               variant="ghost"
-              onClick={() => onDeleteTask(task.id)}
+              onClick={() => dispatch(deleteTask(task.id))}
               className="cursor-pointer h-9 w-9 p-0 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-full transition-all duration-200 group"
             >
               <Trash2 className="h-4 w-4 text-gray-500 group-hover:text-red-600 dark:group-hover:text-red-400" />

@@ -29,7 +29,8 @@ import {
   type TaskFormData,
 } from "@/components/tasks/schema";
 import { TaskPriority } from "@/types";
-import { useTasks } from "@/contexts/task-context";
+import { useDispatch } from "react-redux";
+import { addTask } from "@/store/task-slice";
 
 const categories = ["Work", "Personal", "Shopping", "Health", "Learning"];
 
@@ -41,7 +42,8 @@ const priorityColors = {
 };
 
 export const TaskForm: React.FC = () => {
-  const { addTask } = useTasks();
+  const dispatch = useDispatch();
+
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -63,10 +65,12 @@ export const TaskForm: React.FC = () => {
     try {
       setIsSubmitting(true);
 
-      addTask({
-        ...data,
-        category: data.category || "Personal",
-      });
+      dispatch(
+        addTask({
+          ...data,
+          category: data.category || "Personal",
+        })
+      );
 
       toast.success("Task created successfully!", {
         duration: 3000,

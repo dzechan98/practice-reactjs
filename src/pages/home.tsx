@@ -3,12 +3,13 @@ import { SearchAndFilter } from "@/components/tasks/search-and-filter";
 import { TaskForm } from "@/components/tasks/task-form";
 import { TaskList } from "@/components/tasks/task-list";
 import { TaskStats } from "@/components/tasks/task-stats";
-import { useTasks } from "@/contexts/task-context";
 import { Separator } from "@radix-ui/react-separator";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
 
 export const HomePage: React.FC = () => {
-  const { tasks } = useTasks();
+  const tasks = useSelector((state: RootState) => state.tasks.tasks);
   const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
   const [searchTerm, setSearchTerm] = useState("");
 
