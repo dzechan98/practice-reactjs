@@ -5,7 +5,9 @@ import { HomePage } from "@/pages/home";
 import { AboutPage } from "@/pages/about";
 import { BlogPage } from "@/pages/blog";
 import { ServicePage } from "@/pages/service";
+import { ProductsPage } from "@/pages/products";
 import Navbar from "@/components/navbar";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 function App() {
   const [darkMode, setDarkMode] = useLocalStorage<boolean>("darkMode", false);
@@ -28,12 +30,19 @@ function App() {
     >
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
       <div className="container mx-auto px-4 py-8">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/service" element={<ServicePage />} />
-        </Routes>
+        <ErrorBoundary
+          fallbackRender={(error) => (
+            <p>Something went wrong: {error.message}</p>
+          )}
+        >
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/service" element={<ServicePage />} />
+            <Route path="/products" element={<ProductsPage />} />
+          </Routes>
+        </ErrorBoundary>
       </div>
     </div>
   );

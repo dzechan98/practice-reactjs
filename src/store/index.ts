@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import taskSlice from "./task-slice";
+import productSlice from "./product-slice";
 
 const persistConfig = {
   key: "root",
@@ -19,6 +20,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   tasks: taskSlice,
+  products: productSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
